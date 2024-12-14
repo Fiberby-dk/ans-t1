@@ -46,7 +46,6 @@ class People(SwapiType):
             raise Exception("Invalid API URL")
         return int(path_parts[3])
 
-
 class Swapi:
     def __init__(self):
         self.session = requests.Session()
@@ -66,3 +65,33 @@ class Swapi:
         if obj_id is not None:
             return f"https://swapi.dev/api/{obj_type.type_slug}/{obj_id}"
         return f"https://swapi.dev/api/{obj_type.type_slug}"
+
+
+
+class Films(SwapiType):
+    type_slug = 'films'  # Define the type slug for films
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)  # Initialize the base class with any keyword arguments
+        self.id = self.id_from_url()  # Extract and set the film ID from the URL
+
+    def __getattr__(self, attr_name):
+        # Attempt to return the attribute value from the data dictionary
+        if attr_name in self.data:
+            return self.data[attr_name]
+        # Raise an AttributeError if the attribute is not found
+        raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{attr_name}'")
+
+    def id_from_url(self) -> int:
+        # Check if 'url' is present in the data
+        if 'url' not in self.data:
+            raise ValueError("'url' not found in data")
+        # Parse the URL to extract the path
+        path = urlparse(self.data['url']).path
+        # Split the path into parts
+        path_parts = path.split('/')
+        # Validate the path structure
+        if path_parts[1] != 'api' or path_parts[2] != self.type_slug:
+            raise Exception("Invalid API URL")
+        # Extract and return the film ID as an integer
+        return int(path_parts[3])
