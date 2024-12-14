@@ -1,0 +1,53 @@
+<!doctype html>
+<head>
+    <title>{{ movie.title }}</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            border: 1px solid black;
+            min-width: 20em;
+            max-width: 40em;
+        }
+        table th, table td {
+            border: 1px solid black;
+            padding: 2px 5px;
+            font-family: "Arial", sans-serif;
+            font-size: 12px;
+        }
+        table th {
+            background-color: #c0c0c0;
+            font-weight: bold;
+            text-align: left;
+        }
+        table td {
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+<h1>{{ movie.title }}</h1>
+<table>
+    <tr>
+        <th>Title</th>
+        <td>{{ movie.title }}</td>
+    </tr>
+    <tr>
+        <th>Director</th>
+        <td>{{ movie.director }}</td>
+    </tr>
+    <tr>
+        <th>Release Date</th>
+        <td>{{ movie.release_date }}</td>
+    </tr>
+    <tr>
+        <th>People</th>
+        <td>
+            <ul>
+                {% for person in people %}
+                <li><a href="{{ url_for('people', people_id=person.id_from_url()) }}">{{ person.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </td>
+    </tr>
+</table>
+</body>

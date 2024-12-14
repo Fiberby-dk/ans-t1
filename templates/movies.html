@@ -1,0 +1,39 @@
+<!doctype html>
+<head>
+    <title>Movies in Star Wars</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            border: 1px solid black;
+            min-width: 20em;
+            max-width: 40em;
+        }
+        table th, table td {
+            border: 1px solid black;
+            padding: 2px 5px;
+            font-family: "Arial", sans-serif;
+            font-size: 12px;
+        }
+        table th {
+            background-color: #c0c0c0;
+            font-weight: bold;
+            text-align: left;
+        }
+        table td {
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+<h1>List of Movies in Star Wars</h1>
+<table>
+    {% for movie in movies %}
+    <tr>
+        <th>Title</th>
+        <td><a href="{{ url_for('movie', movie_id=movie.id_from_url()) }}">{{ movie.title }}</a></td>
+    </tr>
+    {% endfor %}
+</table>
+{% if next.0 %}<a href="{{ next.0 }}">{{ next.1 }}</a>{% endif %}
+{% if previous.0 %}<a href="{{ previous.0 }}">{{ previous.1 }}</a>{% endif %}
+</body>
